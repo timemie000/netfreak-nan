@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/test-video', function () {
     return view('partials.vimeo-video-player');
 });
+
 // แสดงรายการ
 Route::get('/series',function(){
     $series=\App\Serie::all();
@@ -32,9 +33,16 @@ Route::get('/series',function(){
 Route::get('/series/create',function(){
     return view('serie.create');
 });
+Route::get('/episodes/{episode}',function(\App\Episode $episode){
+    $playerTemplate='partials.'.$episode->hosting.'-video-player';
+    return view('episode.show')->with([
+        'episode'=>$episode,        
+        'playerTemplate'=> $playerTemplate
+    ]);
+});
 Route::get('/series/{serieId}/episodes/create',function($serieId){
     return view('episode.create')->with([
-        'serieId'=>$serieId
+        'serieId'=>$serieId,
         ]);
 });
 // รับข้อมูลจากฟอร์ม
@@ -68,4 +76,7 @@ Route::get('/series/{serie}',function(\App\Serie $serie){
     return view('serie.show')->with([
         'serie'=>$serie
     ]);
+});
+Route::get('/home', function () {
+    return redirect('series');
 });
