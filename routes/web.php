@@ -32,7 +32,7 @@ Route::get('/series',function(){
 // แสดงฟอร์มตอน
 Route::get('/series/create',function(){
     return view('serie.create');
-});
+})->middleware('auth');
 Route::get('/episodes/{episode}',function(\App\Episode $episode){
     $playerTemplate='partials.'.$episode->hosting.'-video-player';
     return view('episode.show')->with([
